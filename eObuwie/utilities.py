@@ -2,7 +2,8 @@ import unittest
 from time import sleep
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
+#from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.relative_locator import locate_with
 
 class usefulMethods(unittest.TestCase):
     def open_web(self):
@@ -38,5 +39,8 @@ class usefulMethods(unittest.TestCase):
         self.assertEqual(1, len(spanErrors), "Powinien być jeden komunikat o błędzie!")
         self.assertEqual("To pole jest wymagane", spanErrors[0].text, "Niezgodna treśc komunikatu")
         
-
-        
+        name_not_entered_error_locator = locate_with(By.CLASS_NAME, "form-error").near({By.ID: "firstname"})
+        name_not_entered_error = self.chrome.find_element(name_not_entered_error_locator)
+        print(name_not_entered_error.id)
+        print(spanErrors[0].id)
+        self.assertEqual(name_not_entered_error.id, spanErrors[0].id)
